@@ -1,0 +1,35 @@
+
+ul{
+    padding: 0px;
+}
+.expandable{
+    font-size: 15px;
+    font-style: italic;
+    color: #596270;
+    padding: 10px;
+    text-align: center;
+}
+.date-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 50px 0;
+    background: linear-gradient(to top, rgba(195, 229, 227,0), rgba(195, 229, 227,1));
+    width: 100%;
+}
+.date-form label{
+    margin-right: 3px;
+    margin-top: 4px;
+    font-size: 15px;
+}
+input{
+    width: 80%;
+    padding: 5px;
+}
+.rtable{
+    cursor: pointer;
+    fontSize: 25px;
+    padding: 0;
+    text-align: center;
+    user-select: none;
+}

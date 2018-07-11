@@ -72,6 +72,6 @@ class TweetList extends Component {
 }
 
 function mapStateToProps({tweets}) {
-    return {tweets};
+    return {tweets: tweets.uniqueTweets};
 }
 export default connect(mapStateToProps)(TweetList);

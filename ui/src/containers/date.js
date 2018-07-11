@@ -18,7 +18,7 @@ export default class Date extends Component{
             dateValue: date,
         });
         this.props.onChange(date);
-        console.log(date.format());
+        //console.log(date.format());
     }
 
     render() {

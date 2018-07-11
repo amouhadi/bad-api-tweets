@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { connect} from 'react-redux';
 import { bindActionCreators} from 'redux';
-import {fetchTweets, secondaryFetchTweets} from '../actions/index';
+import {fetchTweets, secondaryFetchTweets,setUniqueTweets} from '../actions/index';
 import moment from 'moment';
 import Date from './date';
 
@@ -19,11 +19,16 @@ class DateForm extends Component {
 
     componentDidUpdate(preProps){
         const currentTweets = this.props.tweets;
-        if( preProps.tweets.length !== currentTweets.length){
-            if(currentTweets.length%100 ===0){
+        if( preProps.tweets.length !== currentTweets.length &&
+            currentTweets.length%100 ===0){
                 const lastTimeStamp = currentTweets[currentTweets.length-1].stamp;
                 this.props.secondaryFetchTweets(moment(lastTimeStamp).format(),this.state.endDate.format())
-            }
+        }
+        else if(currentTweets.length){
+            const uniqueTweets = currentTweets.filter((obj, pos, arr) => {
+                return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos;
+            });
+            this.props.setUniqueTweets(uniqueTweets)
         }
     }
     onFormSubmit(event){
@@ -31,20 +36,17 @@ class DateForm extends Component {
         this.props.fetchTweets(this.state.startDate.format(),
             this.state.endDate.format());
 
-        console.log("end date:" + this.state.endDate.format()+"   .");
     }
     onStartDateChange(date){
         this.setState({
             startDate: date
         });
-        console.log("start date in date-form: "+ date);
 
     }
     onEndDateChange(date){
         this.setState({
             endDate: date
         });
-        console.log("end date in date-form: "+ date);
 
     }
     render () {
@@ -70,9 +72,9 @@ class DateForm extends Component {
 }
 
 function mapStateToProps({tweets}) {
-    return {tweets}
+    return {tweets: tweets.allTweets}
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchTweets, secondaryFetchTweets}, dispatch);
+    return bindActionCreators({ fetchTweets, secondaryFetchTweets,setUniqueTweets}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DateForm);
